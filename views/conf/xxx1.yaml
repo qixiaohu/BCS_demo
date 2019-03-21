@@ -1,0 +1,158 @@
+name: "global-trade-network"
+
+x-type: "hlfv1"
+x-loggingLevel: info
+
+description: "The network to be in if you want to stay in the global trade business"
+
+version: 1.0.0
+
+client:
+  organization: a7b0480700e3dba7a4eddb1ccfec1d0e69767882
+  logging:
+    level: info
+  peer:
+    timeout:
+      connection: 10s
+      queryResponse: 45s
+      executeTxResponse: 120s
+  eventService:
+    timeout:
+      connection: 10s
+      registrationResponse: 50s
+  orderer:
+    timeout:
+      connection: 10s
+      response: 45s
+  cryptoconfig:
+    path: /opt/gopath/src/github.com/hyperledger/fabric
+
+  credentialStore:
+    path: "/tmp/hfc-kvs"
+    cryptoStore:
+      path: /tmp/msp
+    wallet: wallet-name
+  BCCSP:
+    security:
+     enabled: true
+     default:
+      provider: "SW"
+     hashAlgorithm: "SHA2"
+     softVerify: true
+     ephemeral: false
+     level: 256
+
+channels:
+  testchannel:
+    orderers:
+      - orderer-98d560069ff16a92dd70e5ac825c8df6482dff60-0.orderer-98d560069ff16a92dd70e5ac825c8df6482dff60.default.svc.cluster.local
+    peers:
+      peer-a7b0480700e3dba7a4eddb1ccfec1d0e69767882-0.peer-a7b0480700e3dba7a4eddb1ccfec1d0e69767882.default.svc.cluster.local:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer-c4579f52444711ef46d555addc2587c2178ba0f5-0.peer-c4579f52444711ef46d555addc2587c2178ba0f5.default.svc.cluster.local:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+    chaincodes:
+      - bcsdemo:1.0
+organizations:
+  
+  a7b0480700e3dba7a4eddb1ccfec1d0e69767882:
+    mspid: a7b0480700e3dba7a4eddb1ccfec1d0e69767882MSP
+
+    cryptoPath:  /home/stu/workspace/src/bcsdemo/conf/crypto/a7b0480700e3dba7a4eddb1ccfec1d0e69767882.peer/msp
+    tlsCryptoKeyPath: /home/stu/workspace/src/bcsdemo/conf/crypto/a7b0480700e3dba7a4eddb1ccfec1d0e69767882.peer/tls/server.key
+    tlsCryptoCertPath: /home/stu/workspace/src/bcsdemo/conf/crypto/a7b0480700e3dba7a4eddb1ccfec1d0e69767882.peer/tls/server.crt
+
+    peers:
+      
+      - peer-a7b0480700e3dba7a4eddb1ccfec1d0e69767882-0.peer-a7b0480700e3dba7a4eddb1ccfec1d0e69767882.default.svc.cluster.local
+      
+    certificateAuthorities:
+      - ca-org1
+  
+  c4579f52444711ef46d555addc2587c2178ba0f5:
+    mspid: c4579f52444711ef46d555addc2587c2178ba0f5MSP
+
+    cryptoPath:  /home/stu/workspace/src/bcsdemo/conf/crypto/c4579f52444711ef46d555addc2587c2178ba0f5.peer/msp
+    tlsCryptoKeyPath: /home/stu/workspace/src/bcsdemo/conf/crypto/c4579f52444711ef46d555addc2587c2178ba0f5.peer/tls/server.key
+    tlsCryptoCertPath: /home/stu/workspace/src/bcsdemo/conf/crypto/c4579f52444711ef46d555addc2587c2178ba0f5.peer/tls/server.crt
+
+    peers:
+      
+      - peer-c4579f52444711ef46d555addc2587c2178ba0f5-0.peer-c4579f52444711ef46d555addc2587c2178ba0f5.default.svc.cluster.local
+      
+    certificateAuthorities:
+
+  
+  ordererorg:
+      mspID: "98d560069ff16a92dd70e5ac825c8df6482dff60MSP"
+
+      cryptoPath: /home/stu/workspace/src/bcsdemo/conf/crypto/98d560069ff16a92dd70e5ac825c8df6482dff60.orderer/msp
+orderer-eip: 119.3.206.175
+orderers:
+  
+  orderer-98d560069ff16a92dd70e5ac825c8df6482dff60-0.orderer-98d560069ff16a92dd70e5ac825c8df6482dff60.default.svc.cluster.local:
+    url: grpcs://119.3.206.175:30805
+
+    grpcOptions:
+      ssl-target-name-override: orderer-98d560069ff16a92dd70e5ac825c8df6482dff60-0.orderer-98d560069ff16a92dd70e5ac825c8df6482dff60.default.svc.cluster.local
+      grpc-max-send-message-length: 15
+      sslProvider: openSSL
+      negotiationType: TLS
+      hostnameOverride: orderer-98d560069ff16a92dd70e5ac825c8df6482dff60-0.orderer-98d560069ff16a92dd70e5ac825c8df6482dff60.default.svc.cluster.local
+
+    tlsCACerts:
+      path: /home/stu/workspace/src/bcsdemo/conf/crypto/98d560069ff16a92dd70e5ac825c8df6482dff60.orderer/msp/tlscacerts/tlsca.98d560069ff16a92dd70e5ac825c8df6482dff60-cert.pem
+  
+peers:
+  
+  peer-a7b0480700e3dba7a4eddb1ccfec1d0e69767882-0.peer-a7b0480700e3dba7a4eddb1ccfec1d0e69767882.default.svc.cluster.local:
+    url: grpcs://119.3.206.175:30610
+
+    eventUrl: grpcs://119.3.206.175:30710
+
+    grpcOptions:
+      ssl-target-name-override: peer-a7b0480700e3dba7a4eddb1ccfec1d0e69767882-0.peer-a7b0480700e3dba7a4eddb1ccfec1d0e69767882.default.svc.cluster.local
+      grpc.http2.keepalive_time: 15
+      sslProvider: openSSL
+      negotiationType: TLS
+      hostnameOverride: peer-a7b0480700e3dba7a4eddb1ccfec1d0e69767882-0.peer-a7b0480700e3dba7a4eddb1ccfec1d0e69767882.default.svc.cluster.local
+
+    tlsCACerts:
+      path: /home/stu/workspace/src/bcsdemo/conf/crypto/a7b0480700e3dba7a4eddb1ccfec1d0e69767882.peer/msp/tlscacerts/tlsca.a7b0480700e3dba7a4eddb1ccfec1d0e69767882-cert.pem
+  
+  peer-c4579f52444711ef46d555addc2587c2178ba0f5-0.peer-c4579f52444711ef46d555addc2587c2178ba0f5.default.svc.cluster.local:
+    url: grpcs://119.3.206.175:30605
+
+    eventUrl: grpcs://119.3.206.175:30705
+
+    grpcOptions:
+      ssl-target-name-override: peer-c4579f52444711ef46d555addc2587c2178ba0f5-0.peer-c4579f52444711ef46d555addc2587c2178ba0f5.default.svc.cluster.local
+      grpc.http2.keepalive_time: 15
+      sslProvider: openSSL
+      negotiationType: TLS
+      hostnameOverride: peer-c4579f52444711ef46d555addc2587c2178ba0f5-0.peer-c4579f52444711ef46d555addc2587c2178ba0f5.default.svc.cluster.local
+
+    tlsCACerts:
+      path: /home/stu/workspace/src/bcsdemo/conf/crypto/c4579f52444711ef46d555addc2587c2178ba0f5.peer/msp/tlscacerts/tlsca.c4579f52444711ef46d555addc2587c2178ba0f5-cert.pem
+  
+certificateAuthorities:
+  ca-org1:
+    url: https://ca_peerOrg1:7054
+    httpOptions:
+      verify: true
+    tlsCACerts:
+      path: $GOPATH/src/github.com/hyperledger/fabric-sdk-go/test/api-server/tls/fabricca/certs/ca_root.pem
+      client:
+       keyfile: $GOPATH/src/github.com/hyperledger/fabric-sdk-go/test/api-server/tls/fabricca/certs/client/client_fabric_client-key.pem
+       certfile: $GOPATH/src/github.com/hyperledger/fabric-sdk-go/test/api-server/tls/fabricca/certs/client/client_fabric_client.pem
+
+    registrar:
+      enrollId: admin
+      enrollSecret: adminpw
+    caName: ca-org1
